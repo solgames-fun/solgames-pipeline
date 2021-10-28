@@ -17,7 +17,7 @@ const repoNames = REPO_URL.split('/')
 
 const repoName = repoNames[repoNames.length-1]
 
-const FOLDER_NAME = repoName.split('.')[0]+'_1'
+const FOLDER_NAME = repoName.split('.')[0]+'1'
 
 const APP_PORT = 3001
 const setEnv = async(key, value) => {
@@ -47,25 +47,25 @@ async function runDocker() {
     const git = simpleGit('./', { binary: 'git' });
 
     const fileContent = `
-    apiVersion: apps/v1
-    kind: Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+name: myapp
+spec:
+selector:
+    matchLabels:
+    app: myapp
+replicas: 1
+template:
     metadata:
-    name: myapp
-    spec:
-    selector:
-        matchLabels:
+    labels:
         app: myapp
-    replicas: 1
-    template:
-        metadata:
-        labels:
-            app: myapp
-        spec:
-        containers:
-        - name: myapp
-            image: dockerghosh/${FOLDER_NAME}
-            ports:
-            - containerPort: 3001
+    spec:
+    containers:
+    - name: myapp
+        image: dockerghosh/${FOLDER_NAME}
+        ports:
+        - containerPort: 3001
     `
     await fs.writeFile('./dev/deployment.yaml', fileContent)
 
