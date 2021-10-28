@@ -1,0 +1,14 @@
+version: '3.7'
+
+services:
+  solgames:
+    container_name: solgames
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+      args:
+        REPO_URL: ${REPO_URL}
+        FOLDER_NAME: ${FOLDER_NAME}
+        PORT: ${PORT}
+    env_file:
+     - ./.env

@@ -1,0 +1,28 @@
+#STEP 1 - builder stage
+FROM node:12 as solgames-dockers
+LABEL maintainer="sandeep"
+LABEL product="Solgames-Dockers"
+
+RUN apt-get update        
+RUN apt-get install -y git
+
+# switch to frontend
+# RUN git clone https://github.com/blocksan/portfolio.git
+
+ARG REPO_URL
+
+ARG FOLDER_NAME
+
+ARG PORT
+
+RUN git clone $REPO_URL
+
+WORKDIR $FOLDER_NAME
+
+RUN npm install 
+
+#port
+EXPOSE $PORT
+
+#start command
+CMD ["npm", "start"]

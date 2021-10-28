@@ -1,0 +1,24 @@
+{
+  "name": "solgames-pipeline",
+  "version": "1.0.0",
+  "description": "```bash # install ArgoCD in k8s kubectl create namespace argocd kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/solgames-fun/solgames-pipeline.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/solgames-fun/solgames-pipeline/issues"
+  },
+  "homepage": "https://github.com/solgames-fun/solgames-pipeline#readme",
+  "dependencies": {
+    "child_process": "^1.0.2",
+    "dotenv": "^10.0.0",
+    "envfile": "^6.17.0"
+  }
+}
