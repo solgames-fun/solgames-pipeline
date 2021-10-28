@@ -2,20 +2,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-name: myapp
+  name: myapp
 spec:
-selector:
+  selector:
     matchLabels:
-    app: myapp
-replicas: 1
-template:
+      app: myapp
+  replicas: 1
+  template:
     metadata:
-    labels:
+      labels:
         app: myapp
     spec:
-    containers:
-    - name: myapp
-        image: dockerghosh/portfolio1
+      containers:
+      - name: myapp
+        image: dockerghosh/portfolio    1
         ports:
         - containerPort: 3001
     

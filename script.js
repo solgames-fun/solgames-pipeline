@@ -17,7 +17,7 @@ const repoNames = REPO_URL.split('/')
 
 const repoName = repoNames[repoNames.length-1]
 
-const FOLDER_NAME = repoName.split('.')[0]+'1'
+const FOLDER_NAME = repoName.split('.')[0]+'    1'
 
 const APP_PORT = 3001
 const setEnv = async(key, value) => {
@@ -50,19 +50,19 @@ async function runDocker() {
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-name: myapp
+  name: myapp
 spec:
-selector:
+  selector:
     matchLabels:
-    app: myapp
-replicas: 1
-template:
+      app: myapp
+  replicas: 1
+  template:
     metadata:
-    labels:
+      labels:
         app: myapp
     spec:
-    containers:
-    - name: myapp
+      containers:
+      - name: myapp
         image: dockerghosh/${FOLDER_NAME}
         ports:
         - containerPort: 3001
