@@ -37,14 +37,37 @@ const setEnvVar = async () => {
 setEnvVar()
 
 async function runDocker() {
-    const { stdout, stderr } = await exec('docker-compose build');
+    // const { stdout, stderr } = await exec('docker-compose build');
 
-    await exec('docker login --username dockerghosh --password Sandy@123 ');
-    await exec(`docker push dockerghosh/${FOLDER_NAME}:latest`)
+    // await exec('docker login --username dockerghosh --password Sandy@123 ');
+    // await exec(`docker push dockerghosh/${FOLDER_NAME}:latest`)
 
-    console.log('stdout:', stdout);
-    console.log('stderr:', stderr);
+    // console.log('stdout:', stdout);
+    // console.log('stderr:', stderr);
     const git = simpleGit('./', { binary: 'git' });
+
+    const fileContent = `
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+    name: myapp
+    spec:
+    selector:
+        matchLabels:
+        app: myapp
+    replicas: 1
+    template:
+        metadata:
+        labels:
+            app: myapp
+        spec:
+        containers:
+        - name: myapp
+            image: dockerghosh/${FOLDER_NAME}
+            ports:
+            - containerPort: 3001
+    `
+    await fs.writeFile('./dev/deployment.yaml', fileContent)
 
     await git.add('./*')
     await git.commit(`added game ${FOLDER_NAME} updated`)
