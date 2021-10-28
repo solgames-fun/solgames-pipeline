@@ -27,7 +27,7 @@ jobs:
     - name: Login to Docker Hub
       run: docker login --username "${{ secrets.DOCKER_USERNAME }}" --password "${{ secrets.DOCKER_PASSWORD }}"
     - name: Push the Docker Image
-      run: docker push dockerghosh/solgames/portfolio:latest
+      run: docker push dockerghosh/portfolio:latest
       
     env:
         CI: true
