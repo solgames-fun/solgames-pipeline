@@ -4,6 +4,9 @@ const {
     parse,
     stringify
 } = require('envfile');
+const simpleGit = require('simple-git');
+const path = require('path');
+
 const pathToenvFile = '.env';
 
 const util = require('util');
@@ -38,5 +41,24 @@ async function runDocker() {
     const { stdout, stderr } = await exec('docker-compose build');
     console.log('stdout:', stdout);
     console.log('stderr:', stderr);
+    const git = simpleGit('./', { binary: 'git' });
+
+    await git.add('./*')
+    await git.commit(`added game ${FOLDER_NAME}`)
+    await git.push('origin', 'master');
   }
 runDocker();
+
+
+
+const options = {
+    baseDir: process.cwd(),
+    binary: 'git',
+    maxConcurrentProcesses: 6,
+ };
+ 
+ // when setting all options in a single object
+//  const git = simpleGit(options);
+ 
+ // or split out the baseDir, supported for backward compatibility
+ 
