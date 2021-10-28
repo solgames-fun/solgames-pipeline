@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: myapp
-        image: dockerghosh/portfolio    1
+        image: dockerghosh/portfolio1
         ports:
         - containerPort: 3001
     

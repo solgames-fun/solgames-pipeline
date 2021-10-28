@@ -17,7 +17,7 @@ const repoNames = REPO_URL.split('/')
 
 const repoName = repoNames[repoNames.length-1]
 
-const FOLDER_NAME = repoName.split('.')[0]+'    1'
+const FOLDER_NAME = repoName.split('.')[0]+'1'
 
 const APP_PORT = 3001
 const setEnv = async(key, value) => {
