@@ -63,7 +63,7 @@ spec:
     spec:
       containers:
       - name: myapp
-        image: dockerghosh/${FOLDER_NAME}
+        image: dockerghosh/${FOLDER_NAME.trim()}
         ports:
         - containerPort: 3001
     `
