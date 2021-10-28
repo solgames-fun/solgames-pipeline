@@ -5,7 +5,6 @@ const {
     stringify
 } = require('envfile');
 const simpleGit = require('simple-git');
-const path = require('path');
 
 const pathToenvFile = '.env';
 
@@ -39,6 +38,10 @@ setEnvVar()
 
 async function runDocker() {
     const { stdout, stderr } = await exec('docker-compose build');
+
+    await exec('docker login --username dockerghosh --password Sandy@123 ');
+    await exec(`docker push dockerghosh/${FOLDER_NAME}:latest`)
+
     console.log('stdout:', stdout);
     console.log('stderr:', stderr);
     const git = simpleGit('./', { binary: 'git' });
