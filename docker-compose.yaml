@@ -10,6 +10,6 @@ services:
         REPO_URL: ${REPO_URL}
         FOLDER_NAME: ${FOLDER_NAME}
         APP_PORT: ${APP_PORT}
-    image: dockerghosh/solgames/${FOLDER_NAME}
+    image: dockerghosh/${FOLDER_NAME}
     env_file:
      - ./.env
