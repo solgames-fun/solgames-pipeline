@@ -9,6 +9,7 @@ services:
       args:
         REPO_URL: ${REPO_URL}
         FOLDER_NAME: ${FOLDER_NAME}
-        PORT: ${PORT}
+        APP_PORT: ${APP_PORT}
+    image: solgames/${FOLDER_NAME}
     env_file:
      - ./.env
