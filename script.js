@@ -45,7 +45,7 @@ async function runDocker() {
 
     await git.add('./*')
     await git.commit(`added game ${FOLDER_NAME}`)
-    await git.push('origin', 'master');
+    await git.push('origin', 'main');
   }
 runDocker();
 
