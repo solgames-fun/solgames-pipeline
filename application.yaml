@@ -9,7 +9,7 @@ spec:
   source:
     repoURL: https://github.com/solgames-fun/solgames-pipeline.git
     targetRevision: HEAD
-    path: dev
+    path: game2
   destination: 
     server: https://kubernetes.default.svc
     namespace: myapp

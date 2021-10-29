@@ -1,0 +1,21 @@
+
+#####Customer Data#####
+customer_name: game2
+####Deployment Details####
+app_name: game2
+deployment_type: test
+replica_count: 1
+service:
+  port: 3001
+####Image Details####
+app_repo: "dockerghosh/portfolio"
+image_tag: latest
+
+
+#### For Future Use Image Credentials ####
+imageCredentials:
+  registry: 
+  username: 
+  password:
+  email:
+

@@ -1,0 +1,16 @@
+releases:
+- name: '{{ .Values.app_name }}'                   
+  namespace: '{{ .Values.app_name }}'
+  chart: .    
+  version: 0.1.0
+  values:
+   - values.yaml.gotmpl
+  hooks:
+  - events: ["prepare"]         
+    showlogs: true
+    command: "/bin/sh"
+     args:
+     - "-c"
+     - >-
+       kubectl get namespace {{ .Release.Namespace }} >/dev/null 2>&1 ||  kubectl create namespace {{ .Release.Namespace }};
+

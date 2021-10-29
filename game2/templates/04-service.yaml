@@ -1,0 +1,18 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: '{{ .Values.app_name }}-svc'
+  namespace: '{{ .Release.Namespace }}'
+  labels:
+    app: '{{ .Values.app_name }}'
+    customer: '{{ .Values.customer_name }}'
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: http-web
+      protocol: TCP
+      name: http
+  selector:
+      app: '{{ .Values.app_name }}'

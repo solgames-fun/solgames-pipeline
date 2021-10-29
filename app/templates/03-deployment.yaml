@@ -1,0 +1,33 @@
+---
+apiVersion: 'apps/v1'
+kind: Deployment
+metadata:
+  name: '{{ .Values.app_name }}'
+  namespace: '{{ .Release.Namespace }}'
+  labels:
+    app: '{{ .Values.app_name }}'
+    customer: '{{ .Values.customer_name }}'
+spec:
+  replicas: {{ .Values.replica_count }}
+  selector:
+    matchLabels:
+      app: "{{ .Values.app_name }}"
+  template:
+    metadata:
+      annotations:
+        keel.sh/policy: minor
+        keel.sh/trigger: poll
+      labels:
+        app: "{{ .Values.app_name }}"
+        customer: '{{ .Values.customer_name }}'
+    spec:
+      containers:
+      - name: "{{ .Values.app_name}}"
+        image: "{{ .Values.app_repo }}:{{ .Values.image_tag }}"
+        imagePullPolicy: Always
+        envFrom:
+        - configMapRef:
+             name: '{{ .Values.customer_name }}-{{ .Values.app_name }}'
+        ports:
+        - containerPort: '{{ Values.service.port }}'
+          name: http-web
