@@ -29,5 +29,5 @@ spec:
         - configMapRef:
              name: '{{ .Values.customer_name }}-{{ .Values.app_name }}'
         ports:
-        - containerPort: '{{ Values.service.port }}'
+        - containerPort: {{ .Values.service.port }}
           name: http-web
