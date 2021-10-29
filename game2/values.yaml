@@ -4,7 +4,7 @@ customer_name: game2
 ####Deployment Details####
 app_name: game2
 deployment_type: test
-replica_count: 1
+replica_count: 2
 service:
   port: 3001
 ####Image Details####
