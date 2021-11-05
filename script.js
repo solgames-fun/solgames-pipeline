@@ -17,7 +17,7 @@ const repoNames = REPO_URL.split('/')
 
 const repoName = repoNames[repoNames.length-1]
 
-const FOLDER_NAME = repoName.split('.')[0]
+const FOLDER_NAME = repoName.split('.')[0]+"2"
 
 const GAME_NAME = FOLDER_NAME.trim(); //TODO: accept it from the customer
 
@@ -41,10 +41,10 @@ const setEnvVar = async () => {
 setEnvVar()
 
 async function runDocker() {
-    // const { stdout, stderr } = await exec('docker-compose build');
+    const { stdout, stderr } = await exec('docker-compose build');
 
-    // await exec('docker login --username dockerghosh --password Docker@123');
-    // await exec(`docker push dockerghosh/${FOLDER_NAME}:latest`)
+    await exec('docker login --username dockerghosh --password Docker@123');
+    await exec(`docker push dockerghosh/${FOLDER_NAME}:latest`)
 
     // console.log('stdout:', stdout);
     // console.log('stderr:', stderr);
@@ -70,7 +70,7 @@ spec:
     spec:
       containers:
       - name: ${GAME_NAME}
-        image: dockerghosh/${SOLGAMES_DIRECTORY}:latest
+        image: dockerghosh/${FOLDER_NAME}:latest
         ports:
         - containerPort: ${APP_PORT}
           name: http-web
@@ -103,11 +103,11 @@ spec:
 //         - containerPort: 3000
 //           name: http-web
 
-    const dir = `./${SOLGAMES_DIRECTORY}`;
+    const dir = `./games-repo/${SOLGAMES_DIRECTORY}`;
     // if (!fs.existsSync(dir)) {
         await fs.mkdir(dir);
     // }
-    await fs.writeFile(`./${SOLGAMES_DIRECTORY}/deployment.yaml`, deploymentTemplate)
+    await fs.writeFile(`./games-repo/${SOLGAMES_DIRECTORY}/deployment.yaml`, deploymentTemplate)
 
     const serviceTemplate = `
 apiVersion: v1
@@ -127,7 +127,7 @@ spec:
       name: ${GAME_NAME}
     `
 
-    await fs.writeFile(`./${SOLGAMES_DIRECTORY}/service.yaml`, serviceTemplate)
+    await fs.writeFile(`./games-repo/${SOLGAMES_DIRECTORY}/service.yaml`, serviceTemplate)
     // await exec('helm upgrade --namespace game-dev2 --create-namespace --wait --install game-dev2 game2/')
     // await exec('kubectl port-forward svc/game2-svc 8082:80 -n game-dev2')
     await exec(`kubectl get namespace | grep -q "^$${SOLGAMES_DIRECTORY}" || kubectl create namespace ${SOLGAMES_DIRECTORY}`)
