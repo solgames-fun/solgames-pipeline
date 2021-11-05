@@ -1,0 +1,17 @@
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: portfolio1
+  name: portfolio1
+  namespace: portfolio1-portfolio1
+spec:
+  selector:
+    app: portfolio1
+  ports:
+    - port: 80
+      protocol: TCP
+      targetPort: http-web
+      name: portfolio1
+    

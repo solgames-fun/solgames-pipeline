@@ -1,0 +1,25 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: portfolio
+  name: portfolio
+  namespace: portfolio-portfolio
+spec:
+  selector:
+    matchLabels:
+      app: portfolio
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: portfolio
+    spec:
+      containers:
+      - name: portfolio
+        image: dockerghosh/portfolio-portfolio:latest
+        ports:
+        - containerPort: 3001
+          name: http-web
+    

@@ -17,9 +17,13 @@ const repoNames = REPO_URL.split('/')
 
 const repoName = repoNames[repoNames.length-1]
 
-const FOLDER_NAME = repoName.split('.')[0]+'1'
+const FOLDER_NAME = repoName.split('.')[0]
 
-const APP_PORT = 3001
+const GAME_NAME = FOLDER_NAME.trim(); //TODO: accept it from the customer
+
+const SOLGAMES_DIRECTORY = FOLDER_NAME+'-'+GAME_NAME
+
+const APP_PORT = 3001 //TODO: get the input from customer
 const setEnv = async(key, value) => {
     let data = await fs.readFile(pathToenvFile, 'utf8')
     
@@ -39,38 +43,100 @@ setEnvVar()
 async function runDocker() {
     // const { stdout, stderr } = await exec('docker-compose build');
 
-    // await exec('docker login --username dockerghosh --password Sandy@123 ');
+    // await exec('docker login --username dockerghosh --password Docker@123');
     // await exec(`docker push dockerghosh/${FOLDER_NAME}:latest`)
 
     // console.log('stdout:', stdout);
     // console.log('stderr:', stderr);
     const git = simpleGit('./', { binary: 'git' });
 
-    const fileContent = `
+    const deploymentTemplate = `
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: myapp
+  labels:
+    app: ${GAME_NAME}
+  name: ${GAME_NAME}
+  namespace: ${SOLGAMES_DIRECTORY}
 spec:
   selector:
     matchLabels:
-      app: myapp
+      app: ${GAME_NAME}
   replicas: 1
   template:
     metadata:
       labels:
-        app: myapp
+        app: ${GAME_NAME}
     spec:
       containers:
-      - name: myapp
-        image: dockerghosh/${FOLDER_NAME.trim()}
+      - name: ${GAME_NAME}
+        image: dockerghosh/${SOLGAMES_DIRECTORY}:latest
         ports:
-        - containerPort: 3001
+        - containerPort: ${APP_PORT}
+          name: http-web
     `
-    await fs.writeFile('./dev/deployment.yaml', fileContent)
+
+//     apiVersion: apps/v1
+// kind: Deployment
+// metadata:
+//   name: game1
+//   namespace: game1
+//   labels:
+//     app: game1
+//     environment: demo
+// spec:
+//   replicas: 2
+//   selector:
+//     matchLabels:
+//       app: game1
+//   template:
+//     metadata:
+//       labels:
+//         app: game1
+//         environment: demo
+//     spec:
+//       containers:
+//       - name: game1
+//         image: dockerghosh/githubsearchfrontend:latest
+//         imagePullPolicy: Always
+//         ports:
+//         - containerPort: 3000
+//           name: http-web
+
+    const dir = `./${SOLGAMES_DIRECTORY}`;
+    // if (!fs.existsSync(dir)) {
+        await fs.mkdir(dir);
+    // }
+    await fs.writeFile(`./${SOLGAMES_DIRECTORY}/deployment.yaml`, deploymentTemplate)
+
+    const serviceTemplate = `
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: ${GAME_NAME}
+  name: ${GAME_NAME}
+  namespace: ${SOLGAMES_DIRECTORY}
+spec:
+  selector:
+    app: ${GAME_NAME}
+  ports:
+    - port: 80
+      protocol: TCP
+      targetPort: http-web
+      name: ${GAME_NAME}
+    `
+
+    await fs.writeFile(`./${SOLGAMES_DIRECTORY}/service.yaml`, serviceTemplate)
+    // await exec('helm upgrade --namespace game-dev2 --create-namespace --wait --install game-dev2 game2/')
+    // await exec('kubectl port-forward svc/game2-svc 8082:80 -n game-dev2')
+    await exec(`kubectl get namespace | grep -q "^$${SOLGAMES_DIRECTORY}" || kubectl create namespace ${SOLGAMES_DIRECTORY}`)
+    // helm upgrade --namespace game-dev2 --create-namespace --wait --install game-dev game2/
+    // kubectl port-forward svc/game1-svc 8081:80 -n game-dev
+    // kubectl port-forward svc/game1-svc 8082:80 -n game-dev
 
     await git.add('./*')
-    await git.commit(`added game ${FOLDER_NAME} updated`)
+    await git.commit(`added game with folder name => ${SOLGAMES_DIRECTORY}`)
     await git.push('origin', 'main');
   }
 runDocker();
