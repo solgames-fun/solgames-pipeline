@@ -5,7 +5,7 @@ metadata:
   labels:
     app: portfolio2
   name: portfolio2
-  namespace: portfolio2-portfolio2
+  namespace: portfolio-portfolio2
 spec:
   selector:
     app: portfolio2

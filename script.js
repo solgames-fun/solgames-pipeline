@@ -17,9 +17,9 @@ const repoNames = REPO_URL.split('/')
 
 const repoName = repoNames[repoNames.length-1]
 
-const FOLDER_NAME = repoName.split('.')[0]+"2"
+const FOLDER_NAME = repoName.split('.')[0]
 
-const GAME_NAME = FOLDER_NAME.trim(); //TODO: accept it from the customer
+const GAME_NAME = FOLDER_NAME.trim()+"2"; //TODO: accept it from the customer
 
 const SOLGAMES_DIRECTORY = FOLDER_NAME+'-'+GAME_NAME
 
